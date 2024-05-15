@@ -98,17 +98,18 @@ jobs:
           path: build
 
   buildForWindows:
-    needs: build
+    needs: test
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: windows-2019
     strategy:
       fail-fast: false
       matrix:
         targetPlatform:
-          - StandaloneWindows
           - StandaloneWindows64
-          - WSAPlayer
     steps:
+      - uses: ScribeMD/docker-cache@0.5.0
+        with:
+          key: docker-windows64-build
       - uses: actions/checkout@v3
         with:
           lfs: true
